@@ -182,6 +182,24 @@ class ResNetMulti(nn.Module):
 
         return x1, x2
 
+
+    def forward_irm(self, x, mul):
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
+        x = self.layer1(x)
+        x = self.layer2(x)
+
+        x = self.layer3(x)
+        x = x * mul
+        x1 = self.layer5(x)
+
+        x2 = self.layer4(x)
+        x2 = self.layer6(x2)
+
+        return x1, x2
+
     def get_1x_lr_params_NOscale(self):
         """
         This generator returns all the parameters of the net except for
